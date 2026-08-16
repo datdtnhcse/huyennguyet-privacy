@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huyền Nguyệt — Chính sách quyền riêng tư</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0617;
+    --surface: #1A0F2E;
+    --surface-2: #241A3D;
+    --ink: #F2EDFB;
+    --ink-muted: #A99BC7;
+    --gold: #E8B84B;
+    --gold-dim: #B4841B;
+    --hairline: rgba(232, 184, 75, 0.22);
+    /* Same pairing the Huyền Nguyệt app itself uses (ui-guidelines.md §4) —
+       both verified via the Fontsource API to ship a "vietnamese" subset,
+       so diacritics compose correctly (unlike Georgia, which silently
+       dropped combining marks on some systems). Fallback chain ends on the
+       proven-safe system sans, not Georgia, in case the webfont fails to load. */
+    --display: 'Cormorant Garamond', 'Segoe UI', sans-serif;
+    --sans: 'Be Vietnam Pro', 'Segoe UI', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+  }
+  /* System light → light palette, unless the toggle explicitly picked dark. */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F3E8D6;
+      --surface: #FBF4E6;
+      --surface-2: #E9DBC0;
+      --ink: #2A2036;
+      --ink-muted: #6B5A44;
+      --gold: #B4841B;
+      --gold-dim: #8A6414;
+      --hairline: rgba(180, 132, 27, 0.35);
+    }
+  }
+  /* Explicit toggle wins over system preference in both directions. */
+  :root[data-theme="light"] {
+    --bg: #F3E8D6;
+    --surface: #FBF4E6;
+    --surface-2: #E9DBC0;
+    --ink: #2A2036;
+    --ink-muted: #6B5A44;
+    --gold: #B4841B;
+    --gold-dim: #8A6414;
+    --hairline: rgba(180, 132, 27, 0.35);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D0617;
+    --surface: #1A0F2E;
+    --surface-2: #241A3D;
+    --ink: #F2EDFB;
+    --ink-muted: #A99BC7;
+    --gold: #E8B84B;
+    --gold-dim: #B4841B;
+    --hairline: rgba(232, 184, 75, 0.22);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); transition: background-color 0.25s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    html, body { transition: none; }
+  }
+  body {
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.65;
+    margin: 0;
+    padding: 0;
+  }
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---- Header: constellation mark, unique to this app rather than a stock hero ---- */
+  .header {
+    padding: 48px 0 40px;
+    text-align: center;
+  }
+  .mark-button {
+    display: block;
+    margin: 0 auto 20px;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mark-button:hover { background: var(--surface); }
+  .mark-button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .mark {
+    display: block;
+  }
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5.2vw, 2.75rem);
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .effective-date {
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .lede {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 8px 0 52px;
+    font-size: 1.03rem;
+  }
+  .lede p { margin: 0; }
+  .lede strong { color: var(--gold); font-weight: 600; }
+
+  section { margin: 0 0 46px; }
+  h2 {
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+  }
+  .section-index {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+  h2 + p, h2 + ul { margin-top: 18px; }
+
+  p { margin: 0 0 14px; max-width: 64ch; color: var(--ink); }
+  .muted { color: var(--ink-muted); }
+
+  /* ---- Left-rule list instead of a rounded card per item ---- */
+  .rule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rule-list li {
+    border-left: 2px solid var(--hairline);
+    padding: 4px 0 4px 18px;
+    margin: 0 0 18px;
+    max-width: 60ch;
+  }
+  .rule-list li:last-child { margin-bottom: 0; }
+  .rule-list .item-title {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .rule-list .item-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-left: 8px;
+  }
+  .rule-list .item-desc {
+    color: var(--ink-muted);
+    font-size: 0.94rem;
+    margin-top: 4px;
+  }
+
+  .contact-line {
+    padding-left: 18px;
+    border-left: 2px solid var(--hairline);
+  }
+  .contact-line a {
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .contact-line a:hover,
+  .contact-line a:focus-visible {
+    border-bottom-color: var(--gold);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .page { padding: 0 18px 72px; }
+    .header { padding: 36px 0 32px; }
+    .lede { padding: 18px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <button type="button" class="mark-button" id="markButton" aria-label="Đổi giao diện sáng/tối">
+      <canvas class="mark" width="72" height="72" id="mark" aria-hidden="true"></canvas>
+    </button>
+    <p class="eyebrow">HUYỀN NGUYỆT</p>
+    <h1>Chính sách quyền riêng tư</h1>
+    <p class="effective-date">Có hiệu lực từ ngày 16 tháng 8 năm 2026</p>
+  </div>
+
+  <div class="lede">
+    <p><strong>Tóm tắt trong 1 câu:</strong> Huyền Nguyệt không thu thập, không gửi đi và không chia sẻ bất kỳ dữ liệu cá nhân nào của bạn — toàn bộ thông tin bạn nhập chỉ nằm trên chính thiết bị của bạn.</p>
+  </div>
+
+  <section>
+    <h2><span class="section-index">01</span>Dữ liệu chúng tôi không thu thập</h2>
+    <ul class="rule-list">
+      <li>Không yêu cầu đăng ký tài khoản hay đăng nhập.</li>
+      <li>Không tích hợp bất kỳ thư viện phân tích (analytics), quảng cáo, hay theo dõi hành vi nào của bên thứ ba.</li>
+      <li>Không xin quyền truy cập Internet — về mặt kỹ thuật, ứng dụng không có khả năng gửi bất kỳ dữ liệu nào ra khỏi thiết bị của bạn, ngay cả khi muốn.</li>
+      <li>Không thu thập vị trí, danh bạ, hay thông tin từ các ứng dụng mạng xã hội khác.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="section-index">02</span>Dữ liệu lưu trên máy bạn</h2>
+    <p>Để ứng dụng hoạt động, một số thông tin được lưu trực tiếp trên thiết bị của bạn (không đồng bộ lên máy chủ nào của chúng tôi, vì chúng tôi không vận hành máy chủ nào):</p>
+    <ul class="rule-list">
+      <li>Hồ sơ cá nhân bạn nhập khi bắt đầu dùng app: tên và ngày sinh (giờ/nơi sinh nếu bạn chọn dùng tính năng Bản đồ sao).</li>
+      <li>Lịch sử các lượt rút bài tarot và kết quả bói độ hợp bạn đã thực hiện trong app.</li>
+      <li>Lựa chọn giao diện (theme) và cài đặt thông báo.</li>
+    </ul>
+    <p class="muted" style="margin-top:18px">Gỡ cài đặt ứng dụng, hoặc xóa dữ liệu ứng dụng trong Cài đặt hệ thống Android, sẽ xóa vĩnh viễn toàn bộ dữ liệu này khỏi thiết bị của bạn.</p>
+  </section>
+
+  <section>
+    <h2><span class="section-index">03</span>Quyền truy cập thiết bị mà app xin</h2>
+    <ul class="rule-list">
+      <li>
+        <span class="item-title">Thông báo</span><span class="item-badge">Tùy chọn</span>
+        <div class="item-desc">Chỉ dùng để nhắc bạn "lá bài hôm nay đã sẵn sàng" hoặc nhắc xem ngày tốt xấu, nếu bạn bật trong Cài đặt. Có thể tắt bất cứ lúc nào.</div>
+      </li>
+      <li>
+        <span class="item-title">Khởi động lại thiết bị</span>
+        <div class="item-desc">Dùng để đặt lại đúng giờ nhắc thông báo sau khi bạn khởi động lại điện thoại — không dùng cho mục đích nào khác.</div>
+      </li>
+      <li>
+        <span class="item-title">Máy ảnh</span><span class="item-badge">Chưa dùng trong bản này</span>
+        <div class="item-desc">Được khai báo sẵn cho tính năng "Xem tướng khuôn mặt" dự kiến ra mắt sau này. Ở phiên bản hiện tại, chưa có màn hình nào trong app sử dụng camera. Khi tính năng này ra mắt, ảnh chụp sẽ được xử lý hoàn toàn trên máy bạn và không bao giờ được tải lên bất kỳ máy chủ nào.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="section-index">04</span>Trẻ em</h2>
+    <p>Huyền Nguyệt không hướng tới trẻ em dưới 13 tuổi và không cố ý thu thập thông tin từ trẻ em.</p>
+  </section>
+
+  <section>
+    <h2><span class="section-index">05</span>Thay đổi chính sách này</h2>
+    <p>Nếu chính sách này thay đổi, bản cập nhật sẽ được đăng tại đúng địa chỉ này kèm ngày hiệu lực mới ở đầu trang.</p>
+  </section>
+
+  <section>
+    <h2><span class="section-index">06</span>Liên hệ</h2>
+    <p class="contact-line">Có câu hỏi về quyền riêng tư trong Huyền Nguyệt? Liên hệ: <a href="mailto:dat.dtnhcse@gmail.com">dat.dtnhcse@gmail.com</a></p>
+  </section>
+
+  <footer>
+    Huyền Nguyệt · com.huyennguyet.app
+  </footer>
+</div>
+
+<script>
+  // Small constellation + crescent mark, echoing the app's own icon — a
+  // genuine visual tie to this app instead of a generic hero graphic.
+  // Doubles as the theme toggle: tap it to force light/dark, overriding
+  // system preference; choice persists via localStorage.
+  (function () {
+    var STORAGE_KEY = 'hn-privacy-theme';
+    var root = document.documentElement;
+    var button = document.getElementById('markButton');
+    var canvas = document.getElementById('mark');
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var size = 72;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    ctx.scale(dpr, dpr);
+
+    function effectiveTheme() {
+      var explicit = root.getAttribute('data-theme');
+      if (explicit === 'light' || explicit === 'dark') return explicit;
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+
+    function draw(theme) {
+      ctx.clearRect(0, 0, size, size);
+      var gold = theme === 'light' ? '#B4841B' : '#E8B84B';
+      var dim = theme === 'light' ? 'rgba(180,132,27,0.35)' : 'rgba(232,184,75,0.35)';
+
+      var stars = [[10, 14], [62, 10], [58, 54], [8, 50], [34, 6], [66, 34]];
+      ctx.fillStyle = dim;
+      stars.forEach(function (p) {
+        ctx.beginPath();
+        ctx.arc(p[0], p[1], 1.3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      var cx = 36, cy = 36;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.fillStyle = gold;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(cx + 8, cy - 3, 13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.fillStyle = gold;
+      var sx = 56, sy = 20, s = 5;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy - s);
+      ctx.quadraticCurveTo(sx + 2, sy - 2, sx + s, sy);
+      ctx.quadraticCurveTo(sx + 2, sy + 2, sx, sy + s);
+      ctx.quadraticCurveTo(sx - 2, sy + 2, sx - s, sy);
+      ctx.quadraticCurveTo(sx - 2, sy - 2, sx, sy - s);
+      ctx.fill();
+    }
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) { /* private mode, ignore */ }
+      draw(theme);
+      button.setAttribute('aria-label', theme === 'light' ? 'Đổi sang giao diện tối' : 'Đổi sang giao diện sáng');
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* private mode, ignore */ }
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+    }
+    draw(effectiveTheme());
+
+    button.addEventListener('click', function () {
+      applyTheme(effectiveTheme() === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
